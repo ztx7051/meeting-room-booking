@@ -1,19 +1,23 @@
-const http = require("node:http");
+const express = require("express");
 
-const server = http.createServer((req, res) => {
-  if (req.url === "/") {
-    res.writeHead(200, { "Content-Type": "text/plain" });
-    res.end("hello");
-  } else if (req.url === "/health") {
-    const obj = {
-      status: "ok",
-    };
-    res.writeHead(200, { "Content-Type": "application/json" });
-    res.end(JSON.stringify(obj));
-  } else {
-    res.writeHead(404);
-    res.end("Not Found");
-  }
+const app = express();
+
+app.use((req, res, next) => {
+  const start = Date.now();
+  next();
+  const duration = Date.now() - start;
+  console.log(`${req.method} ${req.url} ${duration}ms`);
 });
 
-server.listen(3000);
+app.get("/", (req, res) => {
+  res.send("hello");
+});
+
+app.get("/health", (req, res) => {
+  const obj = {
+    status: "ok",
+  };
+  res.json(obj);
+});
+
+app.listen(3000);
