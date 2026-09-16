@@ -64,7 +64,7 @@ Error [ERR_HTTP_HEADERS_SENT]: Cannot write headers after they are sent to the c
 - **现象**：会导致后续镜像启动崩溃
 - **根因**：没有把express安装进dependencies，dependencies是生产环境也要跑的依赖
 - **修复**：把express安装进dependencies
-- **知识点**：
+- **知识点**：执行顺序是`start` 记时间戳 → `next()`（路由在这行里跑完）→ 算差值并打印。
 
 ---
 
