@@ -1,0 +1,22 @@
+{
+  "name": "meeting-room",
+  "version": "1.0.0",
+  "description": "一个全栈练习项目：会议室的查询、预约、时间冲突校验与取消，支持多用户登录。",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ztx7051/meeting-room-booking.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/ztx7051/meeting-room-booking/issues"
+  },
+  "homepage": "https://github.com/ztx7051/meeting-room-booking#readme"
+}
