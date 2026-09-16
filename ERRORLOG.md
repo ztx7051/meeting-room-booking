@@ -52,6 +52,20 @@ Error [ERR_HTTP_HEADERS_SENT]: Cannot write headers after they are sent to the c
 - **修复**：用 `docker ps` 的 NAMES 列对照正确容器名
 - **知识点**：报错信息里已经写明了它找不到的名字——**先读报错再动手**；看到"无法将 xxx 识别为 cmdlet"，第一反应应是"我可能不在我以为的那个程序里"
 
+### ERR-006 · 中间件漏调next()
+
+- **现象**：服务全部挂起
+- **根因**：没有再中间件调用netx()，导致代码没法往下执行
+- **修复**：再express.use回调里面执行next();
+- **知识点**：养成写中间件就调用next()的习惯
+
+### ERR-007 · 运行时依赖装进devDependencies
+
+- **现象**：会导致后续镜像启动崩溃
+- **根因**：没有把express安装进dependencies，dependencies是生产环境也要跑的依赖
+- **修复**：把express安装进dependencies
+- **知识点**：
+
 ---
 
 ## 📋 新条目模板（复制这段，往下追加）
