@@ -57,14 +57,35 @@ Error [ERR_HTTP_HEADERS_SENT]: Cannot write headers after they are sent to the c
 - **现象**：服务全部挂起
 - **根因**：没有再中间件调用netx()，导致代码没法往下执行
 - **修复**：再express.use回调里面执行next();
-- **知识点**：养成写中间件就调用next()的习惯
+- **知识点**：养成写中间件就调用next()的习惯，执行顺序是`start` 记时间戳 → `next()`（路由在这行里跑完）→ 算差值并打印。
 
 ### ERR-007 · 运行时依赖装进devDependencies
 
 - **现象**：会导致后续镜像启动崩溃
 - **根因**：没有把express安装进dependencies，dependencies是生产环境也要跑的依赖
 - **修复**：把express安装进dependencies
-- **知识点**：执行顺序是`start` 记时间戳 → `next()`（路由在这行里跑完）→ 算差值并打印。
+- **知识点**：`--save` 默认进 dependencies,`-D` 才进 dev;Docker 镜像里 `npm ci --omit=dev` 只装生产依赖
+
+### ERR-008 · SQL注入原理为什么execute能防，query不能防
+
+- **现象**：使用db.query()的话，用户拼接一个' OR '1'='1会让整体SQL变成WHERE name = '' OR '1'='1'，这样就变成查全表了。
+- **根因**：拼接让用户输入混进 SQL 文本，数据变成了代码
+- **修复**：使用db.execute()
+- **知识点**：execute会先预处理带？的SQL语句，并进行结构化，然后再将参数放到对应值上面，这样就不会被当作代码执行
+
+### ERR-009 · REST资源导向设计(为什么是PUT /api/rooms/:id 而不是post /api/updateRoom)
+
+- **现象**：思考题答非所问,误以为 PUT 的好处是"不用写 body"(实际 PUT 就带 body)
+- **根因**：没建立"URL = 资源地址(名词),HTTP 方法 = 动作"的模型,停留在"URL 是要调用的函数名"的 RPC 思维
+- **修复**：/api/rooms/5 表示"5 号会议室这个资源"——GET 读它、PUT 整体替换它、DELETE 删它、POST 到 /api/rooms 新建;动作写在方法里,不写在 URL 里
+- **知识点**：方法自带语义红利:PUT/DELETE 幂等、GET 可缓存,网关/代理能按语义工作;404 统一表示"资源不存在";id 放路径(标识哪个资源),修改内容放 body
+
+### ERR-010 · 实验代码及时清理
+
+- **现象**：验证运行代码爆炸
+- **根因**：没有及时清理测试的代码，并且后续也没有验证，导致验收的时候直接爆炸
+- **修复**：清理多余的**`await db.query()`** 代码
+- **知识点**：养成实验代码实验完毕一定要马上清楚的习惯
 
 ---
 

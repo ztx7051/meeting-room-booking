@@ -42,3 +42,7 @@ INSERT INTO rooms (name,capacity,location) VALUES ('Conference Room A',10,'First
 INSERT INTO rooms (name,capacity,location) VALUES ('Conference Room B',20,'Second Floor');
 INSERT INTO rooms (name,capacity,location) VALUES ('Conference Room C',15,'Third Floor');
 INSERT INTO rooms (name,capacity,location) VALUES ('Conference Room D',25,'Fourth Floor');
+
+INSERT INTO bookings (user_id,room_id,start_time,end_time,status) VALUES (1,1,'2026-09-18 09:00:00','2026-09-18 10:00:00','confirmed');
+INSERT INTO bookings (user_id,room_id,start_time,end_time,status) VALUES (2,2,'2026-09-18 11:00:00','2026-09-18 12:00:00','confirmed');
+INSERT INTO bookings (user_id,room_id,start_time,end_time,status) VALUES (1,2,'2026-09-10 11:00:00','2026-09-10 13:00:00','confirmed');
