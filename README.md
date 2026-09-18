@@ -4,9 +4,28 @@
 
 ## 技术栈
 
-- 后端：Node.js + TypeScript + Express + MySQL 8
+- 后端：Node.js + Express 5 + mysql2 + zod + MySQL 8
 - 前端：Vue3 + Element Plus
 - 基础设施：Docker / Docker Compose、Nginx
+
+## 目录结构
+
+```
+meeting-room/
+├── server.js                 # 入口:装配中间件、挂路由、监听端口
+├── .env                      # 环境变量(不进 git)
+├── .env.example              # 环境变量模板(进 git)
+├── sql/init.sql              # 建表 + 种子数据(重灌即可复原)
+└── src/
+    ├── routes/               # 接线层:URL + 方法 → controller
+    ├── controllers/          # 协议层:取参、zod 校验、状态码与响应
+    ├── services/             # 业务层:业务规则(不碰 req/res)
+    ├── models/               # 数据层:SQL 与连接池(不知道 HTTP 的存在)
+    ├── middlewares/          # 横切关注点:日志 / 404 / 全局错误
+    └── utils/                # 纯工具:统一响应格式 {code, data, message}
+```
+
+依赖只能单向流动:routes → controllers → services → models。
 
 ## 功能规划
 
@@ -21,7 +40,21 @@
 
 ## 本地启动
 
-（TODO：随开发补全）
+```powershell
+# 1. MySQL 容器(首次)
+docker run -d --name mysql-meeting -p 3306:3306 -e MYSQL_ROOT_PASSWORD=你的密码 -e MYSQL_DATABASE=meeting_room mysql:8
+
+# 2. 建表 + 种子数据
+Get-Content -Encoding UTF8 sql/init.sql | docker exec -i mysql-meeting mysql -uroot -p你的密码 meeting_room
+
+# 3. 配置:复制 .env.example 为 .env,填入真实连接信息
+
+# 4. 安装依赖并启动(nodemon 热重启)
+npm install
+npm run dev
+```
+
+接口基准地址:http://localhost:3000(Git Bash 下第 2 步可写 `docker exec -i mysql-meeting mysql -uroot -p你的密码 meeting_room < sql/init.sql`)
 
 ## 学习过程
 

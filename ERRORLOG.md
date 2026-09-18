@@ -87,6 +87,13 @@ Error [ERR_HTTP_HEADERS_SENT]: Cannot write headers after they are sent to the c
 - **修复**：清理多余的**`await db.query()`** 代码
 - **知识点**：养成实验代码实验完毕一定要马上清楚的习惯
 
+### ERR-011 · 错误代号
+
+- **现象**：删除预定角色，没有把错误正确的处理
+- **根因**：catch错误捕获失败，
+- **修复**：修改catch的判断error.errno===1451才对
+- **知识点**：错误代号**实测入册**(node 一发探针打印 err.code),匹配优先用 `err.errno` 数字
+
 ---
 
 ## 📋 新条目模板（复制这段，往下追加）

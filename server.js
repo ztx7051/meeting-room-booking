@@ -6,7 +6,15 @@ const app = express();
 app.use(express.json());
 app.use(require("./src/middlewares/logger"));
 
-app.use("/api/rooms", require("./src/routes/rooms"));// 挂路由
+app.use("/api/rooms", require("./src/routes/rooms")); // 挂路由
+app.use("/api/users", require("./src/routes/users"));
+
+app.get("/health", (req, res) => {
+  const obj = {
+    status: "ok",
+  };
+  res.json(obj);
+});
 
 app.use(require("./src/middlewares/notFound"));
 app.use(require("./src/middlewares/error"));
