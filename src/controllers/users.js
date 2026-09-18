@@ -23,21 +23,21 @@ exports.getById = async (req, res) => {
 };
 
 exports.addUser = async (req, res) => {
-  const parse = userSchema.safeParse(req.body);
+  const parsed = userSchema.safeParse(req.body);
 
-  if (!parse.success) {
+  if (!parsed.success) {
     return res
       .status(400)
       .json(
         fail(
           400,
-          parse.error.issues
+          parsed.error.issues
             .map((i) => `${i.path.join(".")}: ${i.message}`)
             .join("; "),
         ),
       );
   }
-  const result = await usersServices.create(parse.data);
+  const result = await usersServices.create(parsed.data);
 
   if (!result) {
     return res.status(409).json(fail(409, "用户已存在"));
@@ -49,10 +49,22 @@ exports.updateUser = async (req, res) => {
   const parsed = userSchema.safeParse(req.body);
 
   if (!parsed.success) {
-    return res.status(400).json(fail(400, parsed.error));
+    return res
+      .status(400)
+      .json(
+        fail(
+          400,
+          parsed.error.issues
+            .map((i) => `${i.path.join(".")}: ${i.message}`)
+            .join("; "),
+        ),
+      );
   }
 
   const result = await usersServices.update(parsed.data, req.params.id);
+  if (!result) {
+    return res.status(404).json(fail(404, "User not found"));
+  }
   res.json(success(result));
 };
 
