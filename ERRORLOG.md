@@ -94,6 +94,27 @@ Error [ERR_HTTP_HEADERS_SENT]: Cannot write headers after they are sent to the c
 - **修复**：修改catch的判断error.errno===1451才对
 - **知识点**：错误代号**实测入册**(node 一发探针打印 err.code),匹配优先用 `err.errno` 数字
 
+### ERR-012 · 忘记await
+
+- **现象**：TypeError: Promise is not iterable
+- **根因**：接口没有await 导致数据没有被正确收到
+- **修复**：接口await接数据
+- **知识点**：async一定要await接收Promise
+
+### ERR-013 · !room  === 404
+
+- **现象**：分支永不触发
+- **根因**：这个判断永远不会相等
+- **修复**：去掉===404
+- **知识点**：写的时候不细心，应该去掉404
+
+### ERR-014 · Put没有响应
+
+- **现象**：触发修改put没有收到响应
+- **根因**：函数里面没有写res.josn
+- **修复**：写res.json()
+- **知识点**：没有调用res.*的话，响应就不会发出去
+
 ---
 
 ## 📋 新条目模板（复制这段，往下追加）
