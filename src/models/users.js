@@ -1,12 +1,26 @@
 const db = require("./db");
 
 exports.getAll = async () => {
-  const [rows] = await db.execute("SELECT id, username, role, created_at FROM users");
+  const [rows] = await db.execute(
+    "SELECT id, username, role, created_at FROM users",
+  );
   return rows;
 };
 
 exports.getById = async (id) => {
-  const [rows] = await db.execute("SELECT id, username, role, created_at FROM users WHERE id = ?", [id]);
+  const [rows] = await db.execute(
+    "SELECT id, username, role, created_at FROM users WHERE id = ?",
+    [id],
+  );
+  return rows[0] ?? null;
+};
+
+exports.findByUsername = async (username) => {
+  const [rows] = await db.execute(
+    "SELECT id, username,password_hash, role, created_at FROM users WHERE username = ?",
+    [username],
+  );
+
   return rows[0] ?? null;
 };
 

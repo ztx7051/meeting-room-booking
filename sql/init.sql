@@ -35,8 +35,8 @@ CREATE TABLE
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     ) ENGINE = InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO users (username,password_hash,role) VALUES ('alice','123456','admin');
-INSERT INTO users (username,password_hash,role) VALUES ('bob','123456','user');
+INSERT INTO users (username,password_hash,role) VALUES ('alice','$2b$10$sBMVL8zrA.0kkNfWwkEqpe4SW7YUMKDumUqw9XtW9.KuDoR/eR3V6','admin');
+INSERT INTO users (username,password_hash,role) VALUES ('bob','$2b$10$sBMVL8zrA.0kkNfWwkEqpe4SW7YUMKDumUqw9XtW9.KuDoR/eR3V6','user');
 
 INSERT INTO rooms (name,capacity,location) VALUES ('Conference Room A',10,'First Floor');
 INSERT INTO rooms (name,capacity,location) VALUES ('Conference Room B',20,'Second Floor');
